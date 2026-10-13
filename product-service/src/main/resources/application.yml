@@ -1,0 +1,24 @@
+server:
+  port: 8082
+spring:
+  application:
+    name: product-service
+  datasource:
+    url: jdbc:h2:mem:productdb
+  jpa:
+    hibernate:
+      ddl-auto: update
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+services:
+  promotion:
+    url: http://localhost:8086
+
+app:
+  redis:
+    channel: promotion-updates
+  cache:
+    product-ttl-seconds: 300   # lưới an toàn nếu lỡ mất 1 thông điệp Pub/Sub

@@ -1,0 +1,20 @@
+server:
+  port: 8086
+  error:
+    include-message: always
+spring:
+  application:
+    name: promotion-service
+  datasource:
+    url: jdbc:h2:mem:promotiondb
+  jpa:
+    hibernate:
+      ddl-auto: update
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+app:
+  redis:
+    channel: promotion-updates

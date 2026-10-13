@@ -1,0 +1,22 @@
+server:
+  port: 8084
+spring:
+  application:
+    name: email-service
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: email-group              # KHÁC inventory-group -> mỗi service nhận đủ bản sao event
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      properties:
+        spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
+        spring.json.value.default.type: com.shop.email.event.OrderCreatedEvent
+        spring.json.use.type.headers: false
+        spring.json.trusted.packages: "*"
+
+app:
+  kafka:
+    topic: order-events
+    group-id: email-group

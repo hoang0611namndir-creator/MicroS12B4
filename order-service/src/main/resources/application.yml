@@ -1,0 +1,33 @@
+server:
+  port: 8083
+  error:
+    include-message: always
+spring:
+  application:
+    name: order-service
+  datasource:
+    url: jdbc:h2:mem:orderdb
+  jpa:
+    hibernate:
+      ddl-auto: update
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: all
+      properties:
+        # Không gửi kèm tên class Java -> consumer ở service khác tự map sang class của nó
+        spring.json.add.type.headers: false
+
+app:
+  kafka:
+    topic: order-events
+
+services:
+  customer:
+    url: http://localhost:8081
+  inventory:
+    url: http://localhost:8085
+  product:
+    url: http://localhost:8082
